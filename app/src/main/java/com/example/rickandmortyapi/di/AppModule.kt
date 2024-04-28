@@ -14,37 +14,32 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppModule {
+object AppModule {
 
     @Singleton
     @Provides
     fun provideApi(
-        okHttpClient: OkHttpClient
-    ): RickAndMortyApi {
-        return Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(RickAndMortyApi::class.java)
-    }
-
-    @Provides
-    fun provideOkHttpClient(
         interceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+    ): RickAndMortyApi {
+        val client = OkHttpClient.Builder()
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(10, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .build()
+
+        return Retrofit.Builder()
+            .baseUrl("https://rickandmortyapi.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+            .create(RickAndMortyApi::class.java)
     }
 
     @Provides
     fun provideInterceptor(): HttpLoggingInterceptor {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        return interceptor
+        return HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
     }
 }
