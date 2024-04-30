@@ -5,9 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rickandmortyapi.databinding.FragmentCharacterBinding
 import com.example.rickandmortyapi.ui.CharacterViewModel
+import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,14 +18,15 @@ class CharacterFragment : Fragment() {
 
     private var _binding: FragmentCharacterBinding? = null
     private val binding get() =_binding!!
-    private var adapter = CharacterAdapter(arrayListOf())
+    private val characterAdapter by lazy {
+        CharacterAdapter()
+    }
     private val viewModel: CharacterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentCharacterBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -30,20 +34,34 @@ class CharacterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setAdapter()
+        setupRecycler()
         setCharacter()
     }
 
     private fun setCharacter() {
         viewModel.getCharacter()
-            .observe(viewLifecycleOwner) { characterList ->
-                adapter.list.clear()
-                adapter.list.addAll(characterList.results)
-                adapter.notifyDataSetChanged()
+            .observe(viewLifecycleOwner) { data ->
+                when(data) {
+                    is Resource.Loading -> {
+                        // show progressBar
+                        // else hide progressBar
+                    }
+                    is Resource.Error -> {
+                        Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Success -> {
+                        characterAdapter.submitList(data.data)
+                    }
+                }
             }
     }
 
-    private fun setAdapter() {
-        binding.rvCharacters.adapter = adapter
+    private fun setupRecycler() = with(binding.rvCharacters) {
+        adapter = characterAdapter
+        layoutManager = LinearLayoutManager(
+            requireContext(),
+            LinearLayoutManager.VERTICAL,
+            false
+        )
     }
 }

@@ -1,11 +1,11 @@
-package com.example.rickandmortyapi.api
+package com.example.rickandmortyapi.data.api
 
-import com.example.rickandmortyapi.model.CharacterList
+import com.example.rickandmortyapi.data.model.CharacterList
 import retrofit2.Call
 import retrofit2.http.GET
 
 interface RickAndMortyApi {
 
-    @GET("api/character")
+    @GET("character")
     fun getAllCharacters() : Call<CharacterList>
 }

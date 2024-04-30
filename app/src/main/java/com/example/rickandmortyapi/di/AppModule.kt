@@ -1,6 +1,7 @@
 package com.example.rickandmortyapi.di
 
-import com.example.rickandmortyapi.api.RickAndMortyApi
+import com.example.rickandmortyapi.BuildConfig
+import com.example.rickandmortyapi.data.api.RickAndMortyApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +30,7 @@ object AppModule {
             .build()
 
         return Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
@@ -37,9 +38,8 @@ object AppModule {
     }
 
     @Provides
-    fun provideInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply {
+    fun provideInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
-        }
     }
 }

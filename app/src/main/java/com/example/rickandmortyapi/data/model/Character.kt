@@ -1,6 +1,7 @@
-package com.example.rickandmortyapi.model
+package com.example.rickandmortyapi.data.model
 
-data class CharacterModel(
+data class Character(
+    val id: Int,
     val image: String,
     val name: String,
     val status: String,
@@ -8,5 +9,5 @@ data class CharacterModel(
 )
 
 data class CharacterList (
-    val results : ArrayList<CharacterModel>
+    val results : ArrayList<Character>
 )
