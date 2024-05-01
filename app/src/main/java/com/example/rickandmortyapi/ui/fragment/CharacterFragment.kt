@@ -7,20 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rickandmortyapi.R
+import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterBinding
 import com.example.rickandmortyapi.ui.CharacterViewModel
 import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CharacterFragment : Fragment() {
+class CharacterFragment : Fragment(), CharacterClickListener {
 
     private var _binding: FragmentCharacterBinding? = null
     private val binding get() =_binding!!
     private val characterAdapter by lazy {
-        CharacterAdapter()
+        CharacterAdapter(this)
     }
     private val viewModel: CharacterViewModel by viewModels()
 
@@ -65,5 +67,17 @@ class CharacterFragment : Fragment() {
             GridLayoutManager.VERTICAL,
             false
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCharacterClick(character: Character) {
+        val bundle = Bundle().apply {
+            putInt("characterId", character.id)
+        }
+        findNavController().navigate(R.id.action_characterFragment_to_characterDetailFragment, bundle)
     }
 }

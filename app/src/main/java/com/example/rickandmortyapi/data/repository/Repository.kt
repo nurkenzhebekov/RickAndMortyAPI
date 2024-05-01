@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.rickandmortyapi.data.api.RickAndMortyApi
 import com.example.rickandmortyapi.data.model.Character
+import com.example.rickandmortyapi.data.model.CharacterDetail
 import com.example.rickandmortyapi.data.model.CharacterList
 import com.example.rickandmortyapi.utils.Resource
 import retrofit2.Call
@@ -30,6 +31,26 @@ class Repository @Inject constructor(
             }
 
             override fun onFailure(p0: Call<CharacterList>, t: Throwable) {
+                liveData.postValue(Resource.Error(t.localizedMessage?:"Unknown exception"))
+            }
+
+        })
+        return liveData
+    }
+
+    fun getCharacterById(id: Int): MutableLiveData<Resource<CharacterDetail>> {
+        val liveData = MutableLiveData<Resource<CharacterDetail>>()
+        liveData.postValue(Resource.Loading())
+        api.getCharacterById(id).enqueue(object : Callback<CharacterDetail> {
+            override fun onResponse(p0: Call<CharacterDetail>, response: Response<CharacterDetail>) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        liveData.postValue(Resource.Success(it))
+                    }
+                }
+            }
+
+            override fun onFailure(p0: Call<CharacterDetail>, t: Throwable) {
                 liveData.postValue(Resource.Error(t.localizedMessage?:"Unknown exception"))
             }
 

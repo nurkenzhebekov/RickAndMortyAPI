@@ -10,14 +10,16 @@ import coil.load
 import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.databinding.ItemCharacterBinding
 import com.example.rickandmortyapi.data.model.Character
+import com.example.rickandmortyapi.ui.fragment.CharacterClickListener
 
-class CharacterAdapter : ListAdapter<Character, CharacterViewHolder>(
+class CharacterAdapter(private val clickListener: CharacterClickListener) :
+    ListAdapter<Character, CharacterViewHolder>(
     CharacterItemCallback()
 ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
         val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CharacterViewHolder(binding)
+        return CharacterViewHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
@@ -26,7 +28,10 @@ class CharacterAdapter : ListAdapter<Character, CharacterViewHolder>(
 
 }
 
-class CharacterViewHolder(var binding: ItemCharacterBinding) : ViewHolder(binding.root) {
+class CharacterViewHolder(
+    var binding: ItemCharacterBinding,
+    private val clickListener: CharacterClickListener
+) : ViewHolder(binding.root) {
     fun bind(model: Character) {
         with(binding) {
             ivCharacter.load(model.image)
@@ -39,6 +44,10 @@ class CharacterViewHolder(var binding: ItemCharacterBinding) : ViewHolder(bindin
                 "Dead" -> ivLifeStatusIndicator.setImageResource(R.drawable.ic_dot_red)
                 else -> ivLifeStatusIndicator.setImageResource(R.drawable.ic_dot_grey)
             }
+
+            itemView.setOnClickListener {
+                clickListener.onCharacterClick(model)
+            }
         }
     }
 }
@@ -50,4 +59,8 @@ class CharacterItemCallback : DiffUtil.ItemCallback<Character>() {
     override fun areContentsTheSame(oldItem: Character, newItem: Character) =
         oldItem == newItem
 
+}
+
+interface CharacterClickListener {
+    fun onCharacterClick(character: Character)
 }

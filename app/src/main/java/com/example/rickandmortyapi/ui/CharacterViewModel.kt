@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.rickandmortyapi.data.model.Character
+import com.example.rickandmortyapi.data.model.CharacterDetail
 import com.example.rickandmortyapi.data.repository.Repository
 import com.example.rickandmortyapi.data.model.CharacterList
 import com.example.rickandmortyapi.utils.Resource
@@ -16,5 +17,7 @@ class CharacterViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun getCharacter(): LiveData<Resource<List<Character>>> = repository.getCharacter()
+
+    fun getCharacterById(id: Int): LiveData<Resource<CharacterDetail>> = repository.getCharacterById(id)
 
 }
