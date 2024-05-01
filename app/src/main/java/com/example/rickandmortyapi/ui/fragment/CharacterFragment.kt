@@ -46,13 +46,14 @@ class CharacterFragment : Fragment(), CharacterClickListener {
             .observe(viewLifecycleOwner) { data ->
                 when(data) {
                     is Resource.Loading -> {
-                        // show progressBar
-                        // else hide progressBar
+                        binding.progressBar.visibility = View.VISIBLE
                     }
                     is Resource.Error -> {
+                        binding.progressBar.visibility = View.INVISIBLE
                         Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Success -> {
+                        binding.progressBar.visibility = View.INVISIBLE
                         characterAdapter.submitList(data.data)
                     }
                 }

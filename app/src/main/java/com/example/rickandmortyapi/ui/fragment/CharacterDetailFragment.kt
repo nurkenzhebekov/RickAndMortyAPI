@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import coil.load
+import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.databinding.FragmentCharacterDetailBinding
 import com.example.rickandmortyapi.ui.CharacterViewModel
+import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,14 +43,15 @@ class CharacterDetailFragment : Fragment() {
                 .observe(viewLifecycleOwner) { data ->
                     when(data) {
                         is Resource.Loading -> {
-                            // show progressBar
-                            // else hide progressBar
+                            binding.progressBar.visibility = View.VISIBLE
                         }
                         is Resource.Error -> {
+                            binding.progressBar.visibility = View.INVISIBLE
                             Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                         }
                         is Resource.Success -> {
                             with(binding) {
+                                progressBar.visibility = View.GONE
                                 imgCharacter.load(data.data.image)
                                 tvCharacterName.text = data.data.name
                                 tvCharacterLifeStatus.text = data.data.status
@@ -56,6 +59,8 @@ class CharacterDetailFragment : Fragment() {
                                 tvGender.text = data.data.gender
                                 tvLastKnownLocation.text = data.data.location.name
                                 tvFirstSeenIn.text = data.data.episode.toString()
+
+                                imgLifeStatusIndicator.setLifeStatusIndicator(data.data.status)
                             }
                         }
                     }

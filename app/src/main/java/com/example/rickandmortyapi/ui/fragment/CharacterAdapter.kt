@@ -10,6 +10,7 @@ import coil.load
 import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.databinding.ItemCharacterBinding
 import com.example.rickandmortyapi.data.model.Character
+import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 import com.example.rickandmortyapi.ui.fragment.CharacterClickListener
 
 class CharacterAdapter(private val clickListener: CharacterClickListener) :
@@ -39,11 +40,7 @@ class CharacterViewHolder(
             tvCharacterRace.text = model.species
             tvCharacterLifeStatus.text = model.status
 
-            when (model.status) {
-                "Alive" -> ivLifeStatusIndicator.setImageResource(R.drawable.ic_dot_green)
-                "Dead" -> ivLifeStatusIndicator.setImageResource(R.drawable.ic_dot_red)
-                else -> ivLifeStatusIndicator.setImageResource(R.drawable.ic_dot_grey)
-            }
+            ivLifeStatusIndicator.setLifeStatusIndicator(model.status)
 
             itemView.setOnClickListener {
                 clickListener.onCharacterClick(model)
