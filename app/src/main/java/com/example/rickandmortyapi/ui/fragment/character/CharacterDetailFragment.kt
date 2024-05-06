@@ -1,4 +1,4 @@
-package com.example.rickandmortyapi.ui.fragment
+package com.example.rickandmortyapi.ui.fragment.character
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import coil.load
-import com.example.rickandmortyapi.R
+import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterDetailBinding
-import com.example.rickandmortyapi.ui.CharacterViewModel
+import com.example.rickandmortyapi.ui.fragment.characters.CharactersViewModel
 import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,26 +46,28 @@ class CharacterDetailFragment : Fragment() {
                             binding.progressBar.visibility = View.VISIBLE
                         }
                         is Resource.Error -> {
-                            binding.progressBar.visibility = View.INVISIBLE
+                            binding.progressBar.visibility = View.GONE
                             Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                         }
                         is Resource.Success -> {
-                            with(binding) {
-                                progressBar.visibility = View.GONE
-                                imgCharacter.load(data.data.image)
-                                tvCharacterName.text = data.data.name
-                                tvCharacterLifeStatus.text = data.data.status
-                                tvCharacterRace.text = data.data.species
-                                tvGender.text = data.data.gender
-                                tvLastKnownLocation.text = data.data.location.name
-                                tvFirstSeenIn.text = data.data.episode.toString()
-
-                                imgLifeStatusIndicator.setLifeStatusIndicator(data.data.status)
-                            }
+                            setupCharacterData(data)
                         }
                     }
                 }
         }
+    }
+
+    private fun setupCharacterData(data: Resource.Success<Character>) = with(binding) {
+            progressBar.visibility = View.GONE
+            imgCharacter.load(data.data.image)
+            tvCharacterName.text = data.data.name
+            tvCharacterLifeStatus.text = data.data.status
+            tvCharacterRace.text = data.data.species
+            tvGender.text = data.data.gender
+            tvLastKnownLocation.text = data.data.location.name
+            tvFirstSeenIn.text = data.data.episode.toString()
+
+            imgLifeStatusIndicator.setLifeStatusIndicator(data.data.status)
     }
 
     override fun onDestroyView() {

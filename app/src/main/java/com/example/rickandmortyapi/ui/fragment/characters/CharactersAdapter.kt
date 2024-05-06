@@ -1,17 +1,14 @@
-package com.example.rickandmortyapi.ui.fragment
+package com.example.rickandmortyapi.ui.fragment.characters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.load
-import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.databinding.ItemCharacterBinding
 import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
-import com.example.rickandmortyapi.ui.fragment.CharacterClickListener
 
 class CharacterAdapter(private val clickListener: CharacterClickListener) :
     ListAdapter<Character, CharacterViewHolder>(

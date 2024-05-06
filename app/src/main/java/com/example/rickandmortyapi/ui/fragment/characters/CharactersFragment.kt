@@ -1,4 +1,4 @@
-package com.example.rickandmortyapi.ui.fragment
+package com.example.rickandmortyapi.ui.fragment.characters
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterBinding
-import com.example.rickandmortyapi.ui.CharacterViewModel
 import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CharacterFragment : Fragment(), CharacterClickListener {
+class CharactersFragment : Fragment(), CharacterClickListener {
 
     private var _binding: FragmentCharacterBinding? = null
     private val binding get() =_binding!!
     private val characterAdapter by lazy {
         CharacterAdapter(this)
     }
-    private val viewModel: CharacterViewModel by viewModels()
+    private val viewModel: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,11 +48,11 @@ class CharacterFragment : Fragment(), CharacterClickListener {
                         binding.progressBar.visibility = View.VISIBLE
                     }
                     is Resource.Error -> {
-                        binding.progressBar.visibility = View.INVISIBLE
+                        binding.progressBar.visibility = View.GONE
                         Toast.makeText(requireContext(), data.message, Toast.LENGTH_SHORT).show()
                     }
                     is Resource.Success -> {
-                        binding.progressBar.visibility = View.INVISIBLE
+                        binding.progressBar.visibility = View.GONE
                         characterAdapter.submitList(data.data)
                     }
                 }
