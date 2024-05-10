@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import coil.load
 import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterDetailBinding
-import com.example.rickandmortyapi.ui.fragment.characters.CharactersViewModel
 import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 import com.example.rickandmortyapi.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint

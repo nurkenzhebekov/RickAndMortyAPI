@@ -3,4 +3,7 @@
     <string name="tv_st_gender">Gender:</string>
     <string name="tv_st_last_known_location">Last known location:</string>
     <string name="tv_st_first_seen_in">First seen in:</string>
+    <string name="tv_gender">Gender</string>
+    <string name="tv_last_known_location">Last Known Location</string>
+    <string name="tv_first_seen_in">First Seen In</string>
 </resources>
