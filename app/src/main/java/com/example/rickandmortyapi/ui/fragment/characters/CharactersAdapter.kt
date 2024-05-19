@@ -12,11 +12,12 @@ import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 
 class CharacterAdapter(private val clickListener: CharacterClickListener) :
     ListAdapter<Character, CharacterViewHolder>(
-    CharacterItemCallback()
-) {
+        CharacterItemCallback()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-        val binding = ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemCharacterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CharacterViewHolder(binding, clickListener)
     }
 
@@ -30,18 +31,16 @@ class CharacterViewHolder(
     var binding: ItemCharacterBinding,
     private val clickListener: CharacterClickListener
 ) : ViewHolder(binding.root) {
-    fun bind(model: Character) {
-        with(binding) {
-            ivCharacter.load(model.image)
-            tvCharacterName.text = model.name
-            tvCharacterRace.text = model.species
-            tvCharacterLifeStatus.text = model.status
+    fun bind(model: Character) = with(binding) {
+        ivCharacter.load(model.image)
+        tvCharacterName.text = model.name
+        tvCharacterRace.text = model.species
+        tvCharacterLifeStatus.text = model.status
 
-            ivLifeStatusIndicator.setLifeStatusIndicator(model.status)
+        ivLifeStatusIndicator.setLifeStatusIndicator(model.status)
 
-            itemView.setOnClickListener {
-                clickListener.onCharacterClick(model)
-            }
+        itemView.setOnClickListener {
+            clickListener.onCharacterClick(model)
         }
     }
 }

@@ -6,16 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.rickandmortyapi.R
 import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterBinding
 import com.example.rickandmortyapi.utils.Resource
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class CharactersFragment : Fragment(), CharacterClickListener {
 
     private var _binding: FragmentCharacterBinding? = null
@@ -23,7 +21,7 @@ class CharactersFragment : Fragment(), CharacterClickListener {
     private val characterAdapter by lazy {
         CharacterAdapter(this)
     }
-    private val viewModel: CharactersViewModel by viewModels()
+    private val viewModel: CharactersViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -9,8 +9,8 @@ import retrofit2.http.Path
 interface RickAndMortyApi {
 
     @GET("character")
-    suspend fun getAllCharacters(): Response<CharacterList>
+    suspend fun getAllCharacters(): CharacterList
 
     @GET("character/{id}")
-    suspend fun getCharacterById(@Path("id") id: Int): Response<Character>
+    suspend fun getCharacterById(@Path("id") id: Int): Character
 }

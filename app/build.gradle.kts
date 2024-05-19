@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
     id ("org.jetbrains.kotlin.kapt")
 }
 
@@ -77,9 +76,6 @@ dependencies {
     //Interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")
 
-    //Hilt
-    implementation ("com.google.dagger:hilt-android:2.51.1")
-
     //kapt
     kapt ("com.google.dagger:hilt-compiler:2.51.1")
 
@@ -88,4 +84,7 @@ dependencies {
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    //Koin
+    implementation("io.insert-koin:koin-android:3.5.0")
 }

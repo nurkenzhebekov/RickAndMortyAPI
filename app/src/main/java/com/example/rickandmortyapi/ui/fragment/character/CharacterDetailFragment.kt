@@ -6,20 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import coil.load
 import com.example.rickandmortyapi.data.model.Character
 import com.example.rickandmortyapi.databinding.FragmentCharacterDetailBinding
 import com.example.rickandmortyapi.ui.extensions.setLifeStatusIndicator
 import com.example.rickandmortyapi.utils.Resource
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@AndroidEntryPoint
 class CharacterDetailFragment : Fragment() {
 
     private var _binding: FragmentCharacterDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CharacterViewModel by viewModels()
+    private val viewModel: CharacterViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
